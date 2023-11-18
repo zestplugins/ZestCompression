@@ -24,10 +24,4 @@ if ( ! defined( 'ZPIC_SLUG' ) ) {
     define( 'ZPIC_MIN_WP', '6.0.0' );  // Minimum of WordPress 4.4 required.
 }
 
-// Include other essential constants.
-// require_once ZPIC_PATH . 'includes/constants.php';
-
-// Include common global functions.
-// require_once ZPIC_PATH . 'includes/functions.php';
-// require_once ZPIC_PATH . 'includes/includes.php';
 require_once ZPIC_PATH . 'includes/class-zestcompression.php';
