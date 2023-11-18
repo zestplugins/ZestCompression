@@ -20,8 +20,8 @@ if ( ! defined( 'ZPIC_SLUG' ) ) {
     define( 'ZPIC_ASSETS_URL', ZPIC_URL . 'assets/' );
     define( 'ZPIC_FILE', __FILE__ );
     define( 'ZPIC_VERSION', '1.0.0' );
-    define( 'ZPIC_MIN_PHP', '5.6.0' ); // Minimum of PHP 5.4 required for autoloading, namespaces, etc.
-    define( 'ZPIC_MIN_WP', '6.0.0' );  // Minimum of WordPress 4.4 required.
+    define( 'ZPIC_MIN_PHP', '5.6.0' );
+    define( 'ZPIC_MIN_WP', '6.0.0' );
 }
 
 require_once ZPIC_PATH . 'includes/class-zestcompression.php';
