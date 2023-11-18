@@ -27,8 +27,8 @@ class ZestCompressionPlugin {
 	 */
 	public function add_plugin_page() {
 		add_options_page(
-			'Zest Compression Settings',
-			'Zest Compression',
+			__( 'Zest Compression Settings', 'zest-compression' ),
+			__( 'Zest Compression', 'zest-compression' ),
 			'manage_options',
 			'zest-compression-settings',
 			array( $this, 'create_admin_page' )
@@ -41,7 +41,6 @@ class ZestCompressionPlugin {
 	public function create_admin_page() {
 		?>
 		<div class="wrap">
-			<!-- <h2>Zest Compression Settings</h2> -->
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'zest_compression_settings' );
@@ -65,14 +64,14 @@ class ZestCompressionPlugin {
 
 		add_settings_section(
 			'compression_settings_section',
-			'Zest Compression Settings',
+			__( 'Zest Compression Settings', 'zest-compression' ),
 			array( $this, 'print_section_info' ),
 			'zest-compression-settings'
 		);
 
 		add_settings_field(
 			'enable_compression',
-			'Auto Compress Images',
+			__( 'Auto Compress Images', 'zest-compression' ),
 			array( $this, 'enable_compression_callback' ),
 			'zest-compression-settings',
 			'compression_settings_section'
@@ -80,7 +79,7 @@ class ZestCompressionPlugin {
 
 		add_settings_field(
 			'compression_quality',
-			'Compression Quality',
+			__( 'Compression Quality', 'zest-compression' ),
 			array( $this, 'compression_quality_callback' ),
 			'zest-compression-settings',
 			'compression_settings_section'
@@ -112,17 +111,16 @@ class ZestCompressionPlugin {
 		<fieldset>
 			<label>
 				<input type="radio" name="zest_compression_settings[enable_compression]" value="1" <?php checked( 1, $settings['enable_compression'] ); ?> />
-				Enable
+				<?php esc_html_e( 'Enable', 'zest-compression' ); ?>
 			</label>
 			<label>
 				<input type="radio" name="zest_compression_settings[enable_compression]" value="0" <?php checked( 0, $settings['enable_compression'] ); ?> />
-				Disable
+				<?php esc_html_e( 'Disable', 'zest-compression' ); ?>
 			</label>
-			<p class="description">Automatically compress every uploaded image to the media folder.</p>
+			<p class="description"><?php esc_html_e( 'Automatically compress every uploaded image to the media folder.', 'zest-compression' ); ?></p>
 		</fieldset>
 		<?php
 	}
-
 
 	/**
 	 * Callback function to display the "Compression Quality" field.
@@ -132,7 +130,7 @@ class ZestCompressionPlugin {
 		$value = isset( $settings['compression_quality'] ) ? esc_attr( $settings['compression_quality'] ) : '';
 		?>
 		<input type="number" id="compression_quality" name="zest_compression_settings[compression_quality]" value="<?php echo $value; ?>" min="1" max="100" />
-		<p class="description">Set the compression quality level. Lower values result in higher compression.</p>
+		<p class="description"><?php esc_html_e( 'Set the compression quality level. Lower values result in higher compression.', 'zest-compression' ); ?></p>
 		<?php
 	}
 
@@ -140,7 +138,7 @@ class ZestCompressionPlugin {
 	 * Callback function to print section information.
 	 */
 	public function print_section_info() {
-		echo 'Configure compression settings below:';
+		esc_html_e( 'Configure compression settings below:', 'zest-compression' );
 	}
 
 	/**
@@ -157,11 +155,11 @@ class ZestCompressionPlugin {
 			$file_path = get_attached_file( $attachment_id);
 			
 			// Check if the file exists
-			if (file_exists( $file_path) ) {
+			if ( file_exists( $file_path ) ) {
 				$this->compress_image( $file_path, $settings['compression_quality'] );
 			} else {
 				// Handle the case where the file doesn't exist
-				error_log( 'File does not exist: ' . $file_path);
+				error_log( 'File does not exist: ' . $file_path );
 			}
 		}
 

@@ -1,9 +1,17 @@
 <?php
 /**
- * Plugin Name: Zest Compression
- * Description: Lossless image compression for JPEG, PNG, and GIF.
- * Version: 1.0
+ * Plugin Name: ZestCompression
+ * Description: Optimize your website's performance with the best image compression plugin.
+ * Version: 1.0.0
  * Author: zestplugins
+ * Author URI: https://github.com/zestplugins
+ * License: GPL-3.0+
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain: zest-compression
+ * 
+ * @link              https://github.com/zestplugins/ZestCompression
+ * @since             1.0.0
+ * @package           ZestCompression
  */
 
  if ( ! defined( 'ABSPATH' ) ) {
