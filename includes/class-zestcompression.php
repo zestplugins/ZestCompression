@@ -37,7 +37,7 @@ class ZestCompressionPlugin {
     public function create_admin_page() {
         ?>
         <div class="wrap">
-            <h2>Zest Compression Settings</h2>
+            <!-- <h2>Zest Compression Settings</h2> -->
             <form method="post" action="options.php">
                 <?php
                 settings_fields( 'zest_compression_settings' );
@@ -61,7 +61,7 @@ class ZestCompressionPlugin {
 
         add_settings_section(
             'compression_settings_section',
-            'Compression Settings',
+            'Zest Compression Settings',
             array( $this, 'print_section_info' ),
             'zest-compression-settings'
         );
@@ -104,8 +104,18 @@ class ZestCompressionPlugin {
      */
     public function enable_compression_callback() {
         $settings = get_option( 'zest_compression_settings' );
-        echo '<input type="checkbox" id="enable_compression" name="zest_compression_settings[enable_compression]" value="1" ' . checked( 1, $settings['enable_compression'], false ) . ' />';
+        ?>
+        <label>
+            <input type="radio" name="zest_compression_settings[enable_compression]" value="1" <?php checked( 1, $settings['enable_compression'] ); ?> />
+            Enable
+        </label>
+        <label>
+            <input type="radio" name="zest_compression_settings[enable_compression]" value="0" <?php checked( 0, $settings['enable_compression'] ); ?> />
+            Disable
+        </label>
+        <?php
     }
+
 
     /**
      * Callback function to display the "Compression Quality" field.
