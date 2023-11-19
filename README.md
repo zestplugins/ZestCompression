@@ -1,6 +1,6 @@
 # ZestCompression Plugin
 
-ZestCompression is a powerful WordPress plugin designed to optimize your website's image assets effortlessly.
+ZestCompression is the best WordPress plugin designed to resize and compress your website's image assets effortlessly.
 
 ## Features
 
