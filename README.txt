@@ -14,8 +14,9 @@ Optimize your website's performance with the best image compression plugin.
 Zest Compression is a powerful WordPress plugin designed to resize and compress your website's image assets, improving page loading times and overall performance.
 
 **Key Features:**
-- Automatic Image Compression: Enable or disable automatic compression for all uploaded images, ensuring optimized file sizes without compromising quality.
-- Compression Quality Control: Fine-tune the compression quality level according to your preferences. Lower values result in higher compression for efficient storage.
+- **Automatic Image Compression:** Enable or disable automatic compression for all uploaded images, ensuring optimized file sizes without compromising quality.
+- **Compression Quality Control:** Fine-tune the compression quality level according to your preferences. Lower values result in higher compression for efficient storage.
+- **Backup Original Images:** Optionally enable to back up original images in a separate folder before compression, providing a safety net for your media assets.
 
 For a detailed guide and updates, visit the [Zest Compression GitHub repository](https://github.com/zestplugins/ZestCompression).
 
@@ -34,6 +35,10 @@ Visit the 'Zest Compression' page in the WordPress dashboard under the 'Settings
 = How does Zest Compression improve website performance? =
 
 Zest Compression boosts website performance by efficiently compressing images uploaded to the WordPress media library. This reduction in image file sizes optimizes page loading times without sacrificing visual quality, leading to an enhanced user experience.
+
+= Is it possible to back up original images before compression? =
+
+Yes, Zest Compression includes an option to enable the backup of original images in a separate folder before compression. This provides a safety net for your media assets.
 
 == Screenshots ==
 

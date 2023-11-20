@@ -8,6 +8,8 @@ ZestCompression is the best WordPress plugin designed to resize and compress you
 
 - **Compression Quality Control:** Fine-tune the compression quality level according to your preferences. Lower values result in higher compression for efficient storage.
 
+- **Backup Original Images:** Optionally enable to back up original images in a separate folder before compression, providing a safety net for your media assets.
+
 ## Installation
 
 1. Download the plugin ZIP file.
