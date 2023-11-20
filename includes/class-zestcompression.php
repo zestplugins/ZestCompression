@@ -186,5 +186,3 @@ class ZestCompressionPlugin {
 	}
 }
 
-// Instantiate the class
-$zest_compression_plugin = new ZestCompressionPlugin();
