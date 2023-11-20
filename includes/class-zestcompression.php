@@ -101,20 +101,21 @@ class ZestCompressionPlugin {
 
 		return $new_input;
 	}
-
+	
 	/**
 	 * Callback function to display the "Enable Compression" field.
 	 */
 	public function enable_compression_callback() {
 		$settings = get_option( 'zest_compression_settings' );
+		$enable_compression = isset( $settings['enable_compression'] ) ? absint( $settings['enable_compression'] ) : 0;
 		?>
 		<fieldset>
 			<label>
-				<input type="radio" name="zest_compression_settings[enable_compression]" value="1" <?php checked( 1, $settings['enable_compression'] ); ?> />
+				<input type="radio" name="zest_compression_settings[enable_compression]" value="1" <?php checked( 1, $enable_compression ); ?> />
 				<?php esc_html_e( 'Enable', 'zest-compression' ); ?>
 			</label>
 			<label>
-				<input type="radio" name="zest_compression_settings[enable_compression]" value="0" <?php checked( 0, $settings['enable_compression'] ); ?> />
+				<input type="radio" name="zest_compression_settings[enable_compression]" value="0" <?php checked( 0, $enable_compression ); ?> />
 				<?php esc_html_e( 'Disable', 'zest-compression' ); ?>
 			</label>
 			<p class="description"><?php esc_html_e( 'Automatically compress every uploaded image to the media folder.', 'zest-compression' ); ?></p>
@@ -127,9 +128,9 @@ class ZestCompressionPlugin {
 	 */
 	public function compression_quality_callback() {
 		$settings = get_option( 'zest_compression_settings' );
-		$value = isset( $settings['compression_quality'] ) ? esc_attr( $settings['compression_quality'] ) : '';
+		$compression_quality = isset( $settings['compression_quality'] ) ? intval( $settings['compression_quality'] ) : 0;
 		?>
-		<input type="number" id="compression_quality" name="zest_compression_settings[compression_quality]" value="<?php echo $value; ?>" min="1" max="100" />
+		<input type="number" id="compression_quality" name="zest_compression_settings[compression_quality]" value="<?php echo esc_attr( $compression_quality ); ?>" min="1" max="100" />
 		<p class="description"><?php esc_html_e( 'Set the compression quality level. Lower values result in higher compression.', 'zest-compression' ); ?></p>
 		<?php
 	}
