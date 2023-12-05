@@ -79,20 +79,20 @@ class ZestCompressionPlugin {
 		);
 
 		add_settings_field(
-			'backup_original_images',
-			__( 'Backup Original Images', 'zest-compression' ),
-			array( $this, 'backup_original_images_callback' ),
-			'zest-compression-settings',
-			'compression_settings_section'
-		);
-
-		add_settings_field(
 			'compression_quality',
 			__( 'Compression Quality', 'zest-compression' ),
 			array( $this, 'compression_quality_callback' ),
 			'zest-compression-settings',
 			'compression_settings_section'
 		);
+
+		add_settings_field(
+			'backup_original_images',
+			__( 'Backup Original Images', 'zest-compression' ),
+			array( $this, 'backup_original_images_callback' ),
+			'zest-compression-settings',
+			'compression_settings_section'
+		);		
 	}
 
 	/**
@@ -101,12 +101,12 @@ class ZestCompressionPlugin {
 	 * @param array $input The input values.
 	 * @return array Sanitized input.
 	 */
-	public function sanitize( $input) {
-		$input = is_array( $input) ? $input : array();
+	public function sanitize( $input ) {
+		$input = is_array( $input ) ? $input : array();
 
 		$new_input = array();
-		$new_input['enable_compression'] = isset( $input['enable_compression'] ) ? 1 : 0;
-		$new_input['backup_original_images'] = isset( $input['backup_original_images'] ) ? 1 : 0;
+		$new_input['enable_compression'] = isset( $input['enable_compression'] ) ? absint( $input['enable_compression'] ) : 0;
+		$new_input['backup_original_images'] = isset( $input['backup_original_images'] ) ? absint( $input['backup_original_images'] ) : 0;
 		$new_input['compression_quality'] = isset( $input['compression_quality'] ) ? intval( $input['compression_quality'] ) : '';
 
 		return $new_input;
