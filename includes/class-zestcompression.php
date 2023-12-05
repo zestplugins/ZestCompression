@@ -188,9 +188,9 @@ class ZestCompressionPlugin {
 	 */
 	public function compress_uploaded_image( $metadata, $attachment_id ) {
 		$settings = get_option( 'zest_compression_settings' );
-	
+
 		if ( ! empty( $settings['enable_compression'] ) && isset( $metadata['file'] ) ) {
-			$file_path = get_attached_file( $attachment_id);
+			$file_path = get_attached_file( $attachment_id );
 
 			// Check if the file exists
 			if ( file_exists( $file_path ) ) {
@@ -200,15 +200,62 @@ class ZestCompressionPlugin {
 				}
 
 				// Compress the image
-				$this->compress_image( $file_path, $settings['compression_quality'] );
+				$compression_result = $this->compress_image( $file_path, $settings['compression_quality'] );
+
+				if ( is_wp_error( $compression_result ) ) {
+					// Display an admin notice for compression error
+					$error_message = $compression_result->get_error_message();
+					add_settings_error(
+						'zest_compression_settings',
+						'compression_error',
+						sprintf( esc_html__( 'Error compressing image: %s', 'zest-compression' ), $error_message ),
+						'error'
+					);
+				}
 			} else {
-				// Handle the case where the file doesn't exist
-				error_log( 'File does not exist: ' . $file_path );
+				// Display an admin notice for file not found
+				add_settings_error(
+					'zest_compression_settings',
+					'file_not_found_error',
+					esc_html__( 'Error: The file does not exist.', 'zest-compression' ),
+					'error'
+				);
 			}
 		}
 
 		return $metadata;
 	}
+
+	/**
+	 * Compresses an image.
+	 *
+	 * @param string $file_path The path to the image file.
+	 * @param int    $quality   The compression quality.
+	 * @return true|WP_Error True on success, WP_Error on failure.
+	 */
+	private function compress_image( $file_path, $quality ) {
+		if ( false === function_exists( 'wp_get_image_editor' ) ) {
+			include ABSPATH . 'wp-admin/includes/image.php';
+		}
+
+		$image_editor = wp_get_image_editor( $file_path );
+
+		if ( is_wp_error( $image_editor ) ) {
+			// Return a WP_Error instance on failure
+			return $image_editor;
+		}
+
+		$image_editor->set_quality( $quality );
+		$saved = $image_editor->save( $file_path );
+
+		if ( is_wp_error( $saved ) ) {
+			// Return a WP_Error instance on failure
+			return $saved;
+		}
+
+		return true; // Compression success
+	}
+
 
 	/**
 	 * Backup the original image before compression.
@@ -233,25 +280,6 @@ class ZestCompressionPlugin {
 
 		// Copy the original image to the backup folder
 		copy( $file_path, $backup_file );
-	}	
-
-	/**
-	 * Compresses an image.
-	 *
-	 * @param string $file_path The path to the image file.
-	 * @param int    $quality   The compression quality.
-	 */
-	private function compress_image( $file_path, $quality) {
-		if ( false === function_exists( 'wp_get_image_editor' ) ) {
-			include ABSPATH . 'wp-admin/includes/image.php';
-		}
-
-		$image_editor = wp_get_image_editor( $file_path);
-
-		if ( ! is_wp_error( $image_editor) ) {
-			$image_editor->set_quality( $quality );
-			$image_editor->save( $file_path );
-		}
 	}
 }
 
