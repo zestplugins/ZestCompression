@@ -41,15 +41,63 @@ class ZestCompressionPlugin {
 	 */
 	public function create_admin_page() {
 		?>
-		<div class="wrap">
-			<form method="post" action="options.php">
-				<?php
-				settings_fields( 'zest_compression_settings' );
-				do_settings_sections( 'zest-compression-settings' );
-				submit_button();
-				?>
-			</form>
+		<div class="wrap" style="background-color: white; margin-right: 15px; margin-top: 15px; min-height: 100svh;">
+
+			<div class="zesthours-help-main">
+				<h1 style="color: whitesmoke;"><?php esc_html_e( 'Zest Compression', 'zest-compression' ); ?></h1>
+			</div>
+
+			<div class="zesthours-help-tabs">
+					<ul class="zesthours-help-tab-links">
+						<li class="zesthours-help-tab-active"><a href="#zesthours-welcome-tab"><?php esc_html_e( 'General', 'zest-compression' ); ?></a></li>
+						<li><a href="#zesthours-support-tab"><?php esc_html_e( 'Support', 'zest-compression' ); ?></a></li>
+					</ul>
+			
+					<div class="zesthours-help-tab-content">
+						<div id="zesthours-welcome-tab" class="zesthours-help-tab zesthours-help-tab-active">
+							<form method="post" action="options.php">
+								<?php
+								settings_fields( 'zest_compression_settings' );
+								do_settings_sections( 'zest-compression-settings' );
+								submit_button();
+								?>
+							</form>
+						</div>
+			
+						<div id="zesthours-support-tab" class="zesthours-help-tab">
+							<h3><?php esc_html_e( '🚑 Require assistance? Our support team is ready to assist you.', 'zest-compression' ); ?></h3>
+							<div class="zesthours-supp">								
+								<p><a href="https://dev.to/zestplugins"><?php esc_html_e( 'Zest Compression Documentation => ', 'zest-compression' ); ?></a>Our documentation comprehensively covers all you require, from installation instructions and hours management to troubleshooting common issues and expanding functionality.</p>
+							</div>
+							<div class="zesthours-supp">								
+								<p><a href="https://github.com/zestplugins/ZestCompression/issues/new?assignees=&labels=&projects=&template=bug_report.md&title="><?php esc_html_e( 'Zest Compression Bug Report => ', 'zest-compression' ); ?></a>Stumbled upon an issue or a bug? We appreciate your help in making our product better. Please take a moment to report it, and we'll work diligently to address it.</p>
+							</div>
+							<div class="zesthours-supp">								
+								<p><a href="https://github.com/zestplugins/ZestCompression/issues/new?assignees=&labels=&projects=&template=feature_request.md&title="><?php esc_html_e( 'Zest Compression Feature Request => ', 'zest-compression' ); ?></a>Have a great idea for a new feature or improvement? We'd love to hear your suggestions! Share your thoughts with us, and we'll consider implementing it to enhance our product.</p>
+							</div>
+						</div>
+					</div>
+				</div>
 		</div>
+	
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				const tabLinks = document.querySelectorAll(".zesthours-help-tab-links a");
+				const tabContents = document.querySelectorAll(".zesthours-help-tab-content .zesthours-help-tab");
+
+				tabLinks.forEach((link) => {
+					link.addEventListener("click", function (e) {
+						e.preventDefault();
+						tabLinks.forEach((l) => l.parentElement.classList.remove("zesthours-help-tab-active"));
+						this.parentElement.classList.add("zesthours-help-tab-active");
+
+						const targetTab = document.querySelector(this.getAttribute("href"));
+						tabContents.forEach((tab) => tab.classList.remove("zesthours-help-tab-active"));
+						targetTab.classList.add("zesthours-help-tab-active");
+					});
+				});
+			});
+		</script>
 		<?php
 	}
 
@@ -65,7 +113,7 @@ class ZestCompressionPlugin {
 
 		add_settings_section(
 			'compression_settings_section',
-			__( 'Zest Compression Settings', 'zest-compression' ),
+			__( 'Settings', 'zest-compression' ),
 			array( $this, 'print_section_info' ),
 			'zest-compression-settings'
 		);

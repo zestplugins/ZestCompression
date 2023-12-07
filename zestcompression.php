@@ -34,6 +34,29 @@ if ( ! defined( 'ZPIC_SLUG' ) ) {
 }
 
 /**
+ * Callback function to enqueue CSS and JS files.
+ */
+function zest_compression_enqueue_assets() {
+    // Enqueue CSS file
+    wp_enqueue_style(
+        'zest-compression-style',
+        ZPIC_ASSETS_URL . 'index.css',
+        array(),
+        ZPIC_VERSION
+    );
+
+    // Enqueue JS file
+    wp_enqueue_script(
+        'zest-compression-script',
+        ZPIC_ASSETS_URL . 'script.js',
+        array( 'jquery' ),
+        ZPIC_VERSION,
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'zest_compression_enqueue_assets' );
+
+/**
  * Activation hook callback to check minimum PHP and WordPress versions.
  */
 function zest_compression_activation_check() {

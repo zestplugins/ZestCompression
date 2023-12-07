@@ -1,0 +1,88 @@
+
+.zesthours-help-tabs {
+    font-family: Arial, sans-serif;
+    padding-left: 10px;
+}
+.zesthours-supp a{
+    text-decoration: none;
+}
+
+.zesthours-help-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #3498db;
+    min-height: 100px;
+}
+
+.zesthours-help-tab-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.zesthours-help-tab-links li {
+    margin-right: 10px;
+}
+
+.zesthours-help-tab-links a {
+    text-decoration: none;
+    background-color: #f2f2f2;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.zesthours-help-tab-links a:hover {
+    background-color: #ddd;
+}
+
+.zesthours-help-tab-links .zesthours-help-tab-active a {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.zesthours-help-tab {
+    display: none;
+}
+
+.zesthours-help-tab-active {
+    display: block;
+}
+
+/* settings page styling */
+.zesthours-settings-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #3498db;
+    min-height: 100px;
+}
+.zesthours-settings-tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.zesthours-settings-tab {
+    padding: 10px 13px;
+    background-color: #3498db;
+    cursor: pointer;
+    border-bottom: none;
+    margin-right: 10px;
+}
+
+.zesthours-settings-tab-content {
+    display: none;
+    padding: 10px;
+}
+.zesthours-settings-active-tab {
+    background-color: white;
+    border: none;
+}
