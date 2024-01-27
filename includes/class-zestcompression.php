@@ -98,6 +98,97 @@ class ZestCompressionPlugin {
 				});
 			});
 		</script>
+
+		<style>
+			
+		.zesthours-help-tabs {
+			font-family: Arial, sans-serif;
+			padding-left: 10px;
+		}
+		.zesthours-supp a{
+			text-decoration: none;
+		}
+
+		.zesthours-help-main {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			background-color: #3498db;
+			min-height: 100px;
+		}
+
+		.zesthours-help-tab-links {
+			display: flex;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.zesthours-help-tab-links li {
+			margin-right: 10px;
+		}
+
+		.zesthours-help-tab-links a {
+			text-decoration: none;
+			background-color: #f2f2f2;
+			padding: 10px 20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		.zesthours-help-tab-links a:hover {
+			background-color: #ddd;
+		}
+
+		.zesthours-help-tab-links .zesthours-help-tab-active a {
+			background-color: #fff;
+			border: 1px solid #ddd;
+		}
+
+		.zesthours-help-tab {
+			display: none;
+		}
+
+		.zesthours-help-tab-active {
+			display: block;
+		}
+
+		/* settings page styling */
+		.zesthours-settings-main {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			background-color: #3498db;
+			min-height: 100px;
+		}
+		.zesthours-settings-tabs {
+			display: flex;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.zesthours-settings-tab {
+			padding: 10px 13px;
+			background-color: #3498db;
+			cursor: pointer;
+			border-bottom: none;
+			margin-right: 10px;
+		}
+
+		.zesthours-settings-tab-content {
+			display: none;
+			padding: 10px;
+		}
+		.zesthours-settings-active-tab {
+			background-color: white;
+			border: none;
+		}
+		</style>
 		<?php
 	}
 
@@ -275,13 +366,73 @@ class ZestCompressionPlugin {
 	}
 
 	/**
-	 * Compresses an image.
+	 * Compresses an image using GD library or fallback method.
 	 *
 	 * @param string $file_path The path to the image file.
 	 * @param int    $quality   The compression quality.
 	 * @return true|WP_Error True on success, WP_Error on failure.
 	 */
 	private function compress_image( $file_path, $quality ) {
+		// Check if GD library is available
+		if ( extension_loaded( 'gd' ) && function_exists( 'gd_info' ) ) {
+			// Use GD library for compression
+			$success = $this->compress_image_with_gd( $file_path, $quality );
+
+			if ( $success === true ) {
+				return true; // Compression success
+			} else {
+				// If GD compression fails, fallback to the existing method
+				return $this->compress_image_fallback( $file_path, $quality );
+			}
+		} else {
+			// If GD is not available, use the existing method as a fallback
+			return $this->compress_image_fallback( $file_path, $quality );
+		}
+	}
+
+	/**
+	 * Compresses an image using GD library.
+	 *
+	 * @param string $file_path The path to the image file.
+	 * @param int    $quality   The compression quality.
+	 * @return true|WP_Error True on success, WP_Error on failure.
+	 */
+	private function compress_image_with_gd( $file_path, $quality ) {
+		// Perform GD library compression
+		$image = imagecreatefromstring( file_get_contents( $file_path ) );
+
+		if ( $image !== false ) {
+			// Create a temporary file for saving the compressed image
+			$temp_file = tempnam( sys_get_temp_dir(), 'compressed_image' );
+			
+			// Save the compressed image
+			$success = imagejpeg( $image, $temp_file, $quality );
+
+			// Free up memory
+			imagedestroy( $image );
+
+			if ( $success ) {
+				// Replace the original image with the compressed one
+				copy( $temp_file, $file_path );
+				unlink( $temp_file );
+
+				return true; // Compression success
+			} else {
+				return new WP_Error( 'compression_error', esc_html__( 'Error compressing image with GD library.', 'zest-compression' ) );
+			}
+		} else {
+			return new WP_Error( 'image_create_error', esc_html__( 'Error creating image from file with GD library.', 'zest-compression' ) );
+		}
+	}
+
+	/**
+	 * Fallback method for compressing an image.
+	 *
+	 * @param string $file_path The path to the image file.
+	 * @param int    $quality   The compression quality.
+	 * @return true|WP_Error True on success, WP_Error on failure.
+	 */
+	private function compress_image_fallback( $file_path, $quality ) {
 		if ( false === function_exists( 'wp_get_image_editor' ) ) {
 			include ABSPATH . 'wp-admin/includes/image.php';
 		}
@@ -303,7 +454,6 @@ class ZestCompressionPlugin {
 
 		return true; // Compression success
 	}
-
 
 	/**
 	 * Backup the original image before compression.
